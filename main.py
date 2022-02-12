@@ -1,46 +1,57 @@
-from math import *
+import math
 from operator import mod
 import matplotlib.pyplot as plt
 import numpy as np
 from sympy import rad
-from datetime import date, datetime
-import datetime as dt
+import csv
 
 
 fig = plt.figure()
 plt.title("Hours of daylight throughout the year")
 plt.xlabel('Days')
 plt.ylabel('Hours of Daylight')
-plt.ylim(0, 27)
-plt.xlim(1, 30)
+plt.ylim(0, 25)
+plt.xlim(1, 365)
 ax = fig.gca()
-
-
+x = np.array(range(365))
 daylight_days = []
 
+lonorloc = input('If you would like to enter a longitude value, press 1. If you would like to enter a city, press 2:')
+lonorloc = int(lonorloc)
+if lonorloc == 1:
+    lon = input('Please enter the longitude of your choice:')
+    lon = float(lon)
+    plt.title("Hours of daylight throughout the year at {} lon".format(lon))
+elif lonorloc == 2:
+    city = input('Please enter the city of your choice:')
+    country = input('Please enter the country of your choice:')
+    with open("worldcities.csv", encoding='utf8') as f_obj:
+        reader = csv.reader(f_obj)
+        for line in reader:
+            if line[0] == city:
+                if line[4] == country:
+                    lon  = float(line[2])
+                    plt.title("Hours of daylight throughout the year in {}, {}".format(city, country))
+
 def Daylight(latitude,day):
-    msdate = date(2022, 1, day).toordinal()-693594
-    julianday = msdate+2415018.5
-    juliancentury = (julianday-2451545)/36525
-    GeomMeanLongSun = mod((280.46646+juliancentury*(36000.76983+juliancentury*0.0003032)),360)
-    GeomMeanAnomSun = 357.52911+juliancentury*(35999.05029-0.0001537*juliancentury)
-    SunEqofCtr = sin(radians(GeomMeanAnomSun))*(1.914602-juliancentury*(0.004817+0.000014*juliancentury))+sin(radians(2*GeomMeanAnomSun))*(0.019993-0.000101*juliancentury)+sin(radians(3*GeomMeanAnomSun))*0.000289
-    MeanObliqEcliptic = 23+(26+((21.448-juliancentury*(46.815+juliancentury*(0.00059-juliancentury*0.001813))))/60)/60
-    SunTrueLong = GeomMeanLongSun+SunEqofCtr
-    SunAppLong = SunTrueLong-0.00569-0.00478*sin(radians(125.04-1934.136*juliancentury))
-    obliqcorr = MeanObliqEcliptic+0.00256*cos(radians(125.04-1934.136*juliancentury))
-    SunDec = degrees(asin(radians(obliqcorr))*sin(radians(SunAppLong)))
-    HASunrise = degrees(acos(cos(radians(90.883))//(cos(radians(latitude))*cos(radians(SunDec)))-tan(radians(latitude))*tan(radians(SunDec))))
-    sunlightduration = 8*HASunrise
-    print(sunlightduration)
-    return sunlightduration
+    P = math.asin(0.39795 * math.cos(0.2163108 + 2 * math.atan(0.9671396 * math.tan(.00860 * (day - 186)))))
+    pi = math.pi
+    hm = (math.sin((0.8333 * pi / 180) + math.sin(latitude * pi / 180) * math.sin(P)) / (math.cos(latitude * pi / 180) * math.cos(P)))
+    try:
+        daylightamount = 24 - (24 / pi) * math.acos(hm)
+    except:
+        if hm < 0:
+            daylightamount = 0
+        else:
+            daylightamount = 24
+    return daylightamount
 
-x = np.array(range(1, 29))
-
-for i in x:
-    daylight_days.append(Daylight(70, i))
-    ax.plot(i, daylight_days[i], 'ro')
-    print(daylight_days[i], i)
-
-plt.grid()
-plt.show()
+try:
+    for i in x:
+        daylight_days.append(Daylight(lon, i))
+        ax.plot(i, daylight_days[i], 'ro')
+        #print(daylight_days[i], i)
+        plt.grid()
+        plt.show()
+except:
+    print('Location does not exist')
