@@ -1,0 +1,5 @@
+1. User enters either lon and lat or name
+2. Program may look up lon lat for name
+3. program calculates daylight equation from lon lat
+4. program shows data on graph
+
