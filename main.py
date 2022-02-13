@@ -85,4 +85,4 @@ while True:
     except:
         print('Location does not exist')
 
-    print(daylight_days[20], daylight_days[50], daylight_days[78], daylight_days[110], daylight_days[140], daylight_days[171], daylight_days[201], daylight_days[232], daylight_days[263], daylight_days[293], daylight_days[324], daylight_days[355])
+    
