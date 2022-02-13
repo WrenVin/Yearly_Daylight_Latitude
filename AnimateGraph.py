@@ -1,9 +1,7 @@
 import math
 import matplotlib.pyplot as plt
-import numpy as np
 import matplotlib.animation as animation
-import datetime
-from os import path
+from scipy.integrate import quad 
 
 daylightamount = []
 fig = plt.figure()
@@ -22,19 +20,26 @@ def init():
     line.set_data([], [])
     return line,
 
+def CalcVal(latitude, day=365):
+    result = None
+    P = math.asin(0.39795 * math.cos(0.2163108 + 2 * math.atan(0.9671396 * math.tan(.00860 * (day - 186)))))
+    pi = math.pi
+    hm = (math.sin((0.8333 * pi / 180) + math.sin(latitude * pi / 180) * math.sin(P)) / (math.cos(latitude * pi / 180) * math.cos(P)))
+    try:
+        result = (24 - (24 / pi) * math.acos(hm))
+    except:
+        if hm < 0:
+            result = 0
+        else:
+            result = 24
+    return result
+
 def Daylight(latitude):
     daylightamount.clear()
+    result = None
     for day in days:
-        P = math.asin(0.39795 * math.cos(0.2163108 + 2 * math.atan(0.9671396 * math.tan(.00860 * (day - 186)))))
-        pi = math.pi
-        hm = (math.sin((0.8333 * pi / 180) + math.sin(latitude * pi / 180) * math.sin(P)) / (math.cos(latitude * pi / 180) * math.cos(P)))
-        try:
-            daylightamount.append(24 - (24 / pi) * math.acos(hm))
-        except:
-            if hm < 0:
-                daylightamount.append(0)
-            else:
-                daylightamount.append(24)
+            result = CalcVal(latitude, day=day)
+            daylightamount.append(result)
     return daylightamount
 
 def animate(i):
