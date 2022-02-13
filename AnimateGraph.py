@@ -2,14 +2,18 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.animation as animation
+import datetime
 from os import path
 
 daylightamount = []
 fig = plt.figure()
 ax = plt.axes(xlim=(0, 365), ylim=(0, 27))
-ax.set_xlabel('Days')
+ax.set_xlabel('Month')
 ax.set_ylabel('Hours of Daylight per day')
 ax.set_title("Hours of daylight throughout the year")
+ax.set_yticks([0, 4, 8, 12, 16, 20, 24])
+plt.xticks([15.21, 60.84-15.21, 91.26-15.21, 121.68-15.21, 152.1-15.21, 182.52-15.21, 212.94-15.21, 243.36-15.21, 273.78-15.21, 304.2-15.21, 334.62-15.21, 365-15.21])
+ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'])
 line, = ax.plot([], [], lw=2)
 lat = range(-90, 91)
 days = range(365)
@@ -40,13 +44,13 @@ def animate(i):
     line.set_data(x, y)
     plt.legend(['Latitude: {} degrees'.format(i)], loc='upper left')
     plt.fill_between(x, y, step="pre", alpha=0.4, color='yellow')
-    plt.fill_between(x, y+300, step="pre", alpha=0.4, color='black')
     return line,
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=lat, interval=55)
 
 writergif = animation.PillowWriter(fps=30)
+anim.save('filename.gif',writer=writergif)
 plt.show()
 
     
