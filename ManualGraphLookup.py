@@ -1,5 +1,6 @@
 import math
 from operator import mod
+from matplotlib import offsetbox
 import matplotlib.pyplot as plt
 import numpy as np
 from sympy import rad
@@ -15,12 +16,15 @@ path_to_dat = path.join(bundle_dir, 'worldcities.csv')
 while True:
     daylight_days = []
     #fig = plt.plots(num='Yearly Daylight Chart')
-    plt.title("Hours of daylight throughout the year")
-    plt.xlabel('Days')
-    plt.ylabel('Hours of Daylight per day')
-    plt.ylim(0, 27)
-    plt.xlim(1, 365)
     ax = plt.subplot()
+    ax.set_xlabel('Month')
+    ax.set_ylabel('Hours of Daylight per day')
+    ax.set_title("Hours of daylight throughout the year")
+    plt.ylim(0, 27)
+    plt.xlim(0, 365)
+    ax.set_yticks([0, 4, 8, 12, 16, 20, 24])
+    plt.xticks([0, 30.42, 60.84, 91.26, 121.68, 152.1, 182.52, 212.94, 243.36, 273.78, 304.2, 334.62])
+    ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'], ha='left')
     x = np.array(range(365))
     while True:
         lonorloc = input('If you would like to enter a longitude value, press 1. If you would like to enter a city, press 2:')
