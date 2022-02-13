@@ -34,17 +34,19 @@ def Daylight(latitude):
     return daylightamount
 
 def animate(i):
+    ax.collections.clear()
     x = days
     y = Daylight(i) 
     line.set_data(x, y)
     plt.legend(['Latitude: {} degrees'.format(i)], loc='upper left')
+    plt.fill_between(x, y, step="pre", alpha=0.4, color='yellow')
+    plt.fill_between(x, y+300, step="pre", alpha=0.4, color='black')
     return line,
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=lat, interval=55)
 
 writergif = animation.PillowWriter(fps=30)
-anim.save('filename.gif',writer=writergif)
 plt.show()
 
     
