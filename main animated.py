@@ -7,6 +7,9 @@ from os import path
 daylightamount = []
 fig = plt.figure()
 ax = plt.axes(xlim=(0, 365), ylim=(0, 27))
+ax.set_xlabel('Days')
+ax.set_ylabel('Hours of Daylight per day')
+ax.set_title("Hours of daylight throughout the year")
 line, = ax.plot([], [], lw=2)
 lat = range(-90, 91)
 days = range(365)
@@ -32,9 +35,7 @@ def Daylight(latitude):
 
 def animate(i):
     x = days
-    y = Daylight(i)
-    print(len(x), len(y))
-    #print(y) 
+    y = Daylight(i) 
     line.set_data(x, y)
     plt.legend(['Latitude: {} degrees'.format(i)], loc='upper left')
     return line,
