@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from scipy.integrate import quad 
+ 
 
 daylightamount = []
 fig = plt.figure()
