@@ -55,7 +55,7 @@ for i in lat:
     #ax.collections.clear()
     x=days
     y = (Daylight(i)) 
-    ax.add_collection3d(plt.fill_between(x,y, alpha=0.3,label="filled plot"),zs=i, zdir='z')
+    ax.add_collection3d(plt.fill_between(x,y, label="filled plot"),zs=i, zdir='z')
     line= ax.plot(x, y, i,  zdir='z')
     #plt.legend(['Latitude: {} degrees'.format(i)], loc='upper left')
     
