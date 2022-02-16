@@ -25,7 +25,7 @@ while True:
     ax.set_yticks([0, 4, 8, 12, 16, 20, 24])
     plt.xticks([0, 30.42, 60.84, 91.26, 121.68, 152.1, 182.52, 212.94, 243.36, 273.78, 304.2, 334.62])
     ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'], ha='left')
-    x = np.array(range(365))
+    days = np.array(range(365))
     while True:
         lonorloc = input('If you would like to enter a longitude value, press 1. If you would like to enter a city, press 2:')
         if lonorloc == '2' or lonorloc =='1':
@@ -36,12 +36,12 @@ while True:
     if lonorloc == 1:
         while True:
             try:
-                lon = input('Please enter the longitude of your choice:')
+                lon = input('Please enter the latitude of your choice:')
                 lon = float(lon)
                 break
             except:
-                print('Please enter a valid longitude')
-        plt.title("Hours of daylight throughout the year at {} lon".format(lon))
+                print('Please enter a valid latitude')
+        plt.title("Hours of daylight throughout the year at {} lat".format(lon))
     elif lonorloc == 2:
         lon = None
         city = input('Please enter the city of your choice:')
@@ -75,10 +75,11 @@ while True:
         height = round(sum(daylight_days)/len(daylight_days), 2)
         coscoef = round(height-daylight_days[182], 2)
         cosequation = 'f(x) = {}cos(2π/365 x)+{}'.format(coscoef, height)
+        print(cosequation)
         return cosequation
 
     try:
-        for i in x:
+        for i in days:
             daylight_days.append(Daylight(lon, i))
             line = ax.plot(i, daylight_days[i], marker='.', color='red')
         cursor = mplcursors.cursor(ax)

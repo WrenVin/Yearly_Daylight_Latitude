@@ -1,21 +1,28 @@
 import math
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
- 
+from mpl_toolkits.mplot3d import Axes3D
+from scipy.integrate import quad 
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+import FillBetween3d
+import numpy as np
+
 
 daylightamount = []
 fig = plt.figure()
-ax = plt.axes(xlim=(0, 365), ylim=(0, 27))
+ax = Axes3D(fig, xlim=(0, 365), ylim=(0, 27), zlim=(-90, 90))
 ax.set_xlabel('Month')
 ax.set_ylabel('Hours of Daylight per day')
+ax.set_zlabel('Latitude')
 ax.set_title("Hours of daylight throughout the year")
 ax.set_yticks([0, 4, 8, 12, 16, 20, 24])
+ax.set_zticks([-90, -60, -45, -30, 0, 30, 45, 60, 90])
 plt.xticks([0, 30.42, 60.84, 91.26, 121.68, 152.1, 182.52, 212.94, 243.36, 273.78, 304.2, 334.62])
 ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'], ha='left')
 line, = ax.plot([], [], lw=2)
-lat = range(-90, 91)
-days = range(365)
-
+lat = np.linspace(-90., 90., 180)
+days = range(0, 366)
+y=[]
 def init():
     line.set_data([], [])
     return line,
@@ -41,18 +48,17 @@ def Daylight(latitude):
             result = CalcVal(latitude, day=day)
             daylightamount.append(result)
     return daylightamount
-
-def animate(i):
+    
+for i in lat:
     ax.collections.clear()
-    x = days
-    y = Daylight(i) 
-    line.set_data(x, y)
-    plt.legend(['Latitude: {} degrees'.format(i)], loc='upper left')
-    plt.fill_between(x, y, step="pre", alpha=0.4, color='yellow')
-    return line,
+    x=days
+    y = (Daylight(i)) 
+    #ax.add_collection3d(plt.fill_between(x,y,color='orange', alpha=0.3,label="filled plot"),zs=i, zdir='z')
+    line= ax.plot(x, y, i, color='black', zdir='z')
+    #plt.legend(['Latitude: {} degrees'.format(i)], loc='upper left')
+    
 
-anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=lat, interval=55)
+
 
 
 plt.show()
