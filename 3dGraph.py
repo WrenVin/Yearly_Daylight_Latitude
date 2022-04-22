@@ -7,7 +7,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import FillBetween3d
 import numpy as np
 import matplotlib.tri as mtri
-from stl import mesh
+#from stl import mesh
 
 
 daylightamount = []
