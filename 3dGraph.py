@@ -1,10 +1,9 @@
+#Total combined daylight per day across the whole earth over a whole year
 import math
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from mpl_toolkits.mplot3d import Axes3D
-from scipy.integrate import quad 
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-import FillBetween3d
 import numpy as np
 import matplotlib.tri as mtri
 #from stl import mesh

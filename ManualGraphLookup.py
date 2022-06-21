@@ -27,7 +27,7 @@ while True:
     ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'], ha='left')
     days = np.array(range(365))
     while True:
-        lonorloc = input('If you would like to enter a longitude value, press 1. If you would like to enter a city, press 2:')
+        lonorloc = input('If you would like to enter a latitude value, press 1. If you would like to enter a city, press 2:')
         if lonorloc == '2' or lonorloc =='1':
             lonorloc = int(lonorloc)
             break
